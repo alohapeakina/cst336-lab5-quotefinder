@@ -23,7 +23,7 @@ const pool = mysql.createPool({
 
 //routes
 app.get('/', (req, res) => {
-   res.send('Hello Express app!')
+   res.render('index');
 });
 
 app.get("/dbTest", async(req, res) => {
@@ -37,7 +37,26 @@ app.get("/dbTest", async(req, res) => {
         console.error("Database error:", err);
         res.status(500).send("Database error");
     }
-});//dbTest
+});
+
+app.get('/searchByKeyword', async (req, res) => {
+    let keyword = req.query.keyword;
+    
+    let sql = `SELECT quote, authorId, firstName, lastName
+               FROM q_quotes
+               NATURAL JOIN q_authors
+               WHERE quote LIKE ?`;
+
+    let sqlParams = [`%${keyword}%`];
+    
+    try {
+        const [rows] = await pool.query(sql, sqlParams);
+        res.render("results",{"quotes":rows});
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error");
+    }
+});
 
 app.listen(3000, ()=>{
     console.log("Express server running")
