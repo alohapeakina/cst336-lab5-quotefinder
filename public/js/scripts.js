@@ -29,9 +29,7 @@ document.getElementById("likesForm").addEventListener("submit", function(event) 
 
     if (!isValid) {
         event.preventDefault();
-        // event.stopPropagation();
     }
-
 
 });
 
@@ -63,13 +61,18 @@ async function getAuthorInfo() {
 function formatAuthorDates(dateString) {
     const date = new Date(dateString);
 
-    return new Intl.DateTimeFormat('en-US', {
-        month: 'long',
-        day: 'numeric',
-        year: 'numeric',
-        hour: 'numeric',
-        minute: '2-digit',
+    return date.toLocaleDateString('en-US', {
         timeZone: 'UTC',
-        timeZoneName: 'short'
-    }).format(date);
+        dateStyle: 'medium'
+    });
+
+    // return new Intl.DateTimeFormat('en-US', {
+    //     month: 'long',
+    //     day: 'numeric',
+    //     year: 'numeric',
+    //     hour: 'numeric',
+    //     minute: '2-digit',
+    //     timeZone: 'UTC',
+    //     timeZoneName: 'short'
+    // }).format(date);
 }
