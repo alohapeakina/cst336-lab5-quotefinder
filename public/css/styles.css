@@ -48,3 +48,28 @@ h1.display-4 {
     margin-bottom: 1.5rem;
     padding-bottom: 1.5rem;
 }
+
+.author-link:hover {
+    text-decoration: underline !important;
+}
+
+.blockquote p {
+    font-size: 1.25rem;
+    color: #212529;
+    line-height: 1.6;
+}
+
+.card {
+    margin: 10px;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+}
+
+.result-header {
+    font-weight: 800 !important;
+    letter-spacing: -1px;
+}

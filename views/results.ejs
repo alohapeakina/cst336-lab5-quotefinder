@@ -1,18 +1,42 @@
 <%- include("partials/header.ejs") %>
 <body>
 
-    <h1>Quotes Found</h1>
+    <div class="container mt-5 mb-5">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold text-primary result-header">Quotes Found</h1>
+        </div>
+        <div class="header-underline"></div>
 
-    <% for (i of quotes) { %>
-        <%= i.quote %> <br>
-        -<em>
-            <a href="#" id="<%=i.authorId%>">
-            <%= i.firstName %> <%= i.lastName %>
-            </a>
-        </em>
-        <br><br>
-    <% } %>
-
+        <div class="row">
+            <% for (i of quotes) { %>
+                <div class="col-12-mb-4">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4">
+                            <figure class="mb-0">
+                                <blockquote class="blockquote">
+                                    <p class="fst-italic">"<%= i.quote %>"</p>
+                                </blockquote>
+                                <figcaption class="blockquote-footer mb-0 text-end">
+                                    <a href="#" class="author-link text-decoration-none fw-bold"id="<%=i.authorId%>">
+                                    <%= i.firstName %> <%= i.lastName %>
+                                    </a>
+                                </figcaption>
+                            </figure>
+                        </div>
+                        <div class="card-footer bg-transparent border-top-0 pt-0 px-4 pb-3">
+                            <span class="badge rounded-pill bg-dark text-white me-2">
+                                <%= i.category %>
+                            </span>
+                            <span class="badge rounded-pill bg-light text-muted border">
+                                Likes: <%= i.likes %>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+        
     <!-- Author Info Modal -->
     <div class="modal fade" id="authorModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -30,6 +54,7 @@
             </div>
         </div>
     </div>
+
     
     <%- include("partials/footer.ejs") %>
     <script src="/js/scripts.js"></script>

@@ -69,7 +69,7 @@ app.get('/', async (req, res) => {
 app.get('/searchByKeyword', async (req, res) => {
     let keyword = req.query.keyword;
     
-    let sql = `SELECT quote, authorId, firstName, lastName
+    let sql = `SELECT *
                FROM q_quotes
                NATURAL JOIN q_authors
                WHERE quote LIKE ?`;
@@ -88,7 +88,7 @@ app.get('/searchByKeyword', async (req, res) => {
 app.get('/searchByAuthor', async (req, res) => {
     let userAuthorId = req.query.authorId;
     
-    let sql = `SELECT authorId, firstName, lastName, quote
+    let sql = `SELECT *
                FROM q_quotes
                NATURAL JOIN q_authors
                WHERE authorId = ?`;

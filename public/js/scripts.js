@@ -21,8 +21,22 @@ async function getAuthorInfo() {
     authorInfo.innerHTML += `<img src="${data[0].portrait}" width="200"><br>`;
     authorInfo.innerHTML += `<b>Profession:</b> ${data[0].profession}<br>`;
     authorInfo.innerHTML += `<b>Sex:</b> ${data[0].sex}<br>`;
-    authorInfo.innerHTML += `<b>Date of Birth:</b> ${data[0].dob}<br>`;
-    authorInfo.innerHTML += `<b>Date of Death:</b> ${data[0].dod}<br>`;
+    authorInfo.innerHTML += `<b>Date of Birth:</b> ${formatAuthorDates(data[0].dob)}<br>`;
+    authorInfo.innerHTML += `<b>Date of Death:</b> ${formatAuthorDates(data[0].dod)}<br>`;
     authorInfo.innerHTML += `<b>Country of Citizenship:</b> ${data[0].country}<br>`;
     authorInfo.innerHTML += `<b>Biography:</b> ${data[0].biography}<br>`;
+}
+
+function formatAuthorDates(dateString) {
+    const date = new Date(dateString);
+
+    return new Intl.DateTimeFormat('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: '2-digit',
+        timeZone: 'UTC',
+        timeZoneName: 'short'
+    }).format(date);
 }
