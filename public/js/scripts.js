@@ -1,8 +1,41 @@
-//Event listeners
+// ====== EVENT LISTENERS ======
 let authorLinks = document.querySelectorAll("a");
 for (let authorLink of authorLinks) {
     authorLink.addEventListener("click", getAuthorInfo);
 }
+
+document.getElementById("likesForm").addEventListener("submit", function(event) {
+
+    const minInput = document.getElementById("minLikes");
+    const maxInput = document.getElementById("maxLikes");
+    const errorField = document.getElementById("likesError");
+
+    const minValue = parseInt(minInput.value) || 0;
+    const maxValue = parseInt(maxInput.value);
+
+    let isValid = true;
+
+    if (isNaN(maxValue)) {
+        errorField.textContent = "Max likes is required";
+        maxInput.classList.add('is-invalid');
+        isValid = false;
+    } else if (minValue > maxValue) {
+        errorField.textContent = "Maximum must be greater than minimum";
+        maxInput.classList.add('is-invalid');
+        isValid = false;
+    } else {
+        maxInput.classList.remove('is-invalid');
+    }
+
+    if (!isValid) {
+        event.preventDefault();
+        // event.stopPropagation();
+    }
+
+
+});
+
+// ====== FUNCTIONS ======
 
 async function getAuthorInfo() {
     let myModal = new bootstrap.Modal(document.getElementById('authorModal'));
