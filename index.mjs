@@ -137,21 +137,25 @@ app.get('/searchByCategory', async (req, res) => {
     }
 });
 
-// app.get('/api/author/:id', async (req, res) => {
-//   let authorId = req.params.id;
-//   let sql = `SELECT *
-//             FROM q_authors
-//             WHERE authorId = ?`;
-//     try {
-//         let [rows] = await pool.query(sql, [authorId]);
-//         res.send(rows)
-//     } catch (err) {
-//         console.error("Database error:", err);
-//         res.status(500).send("Database error");
-//     }
-// });
+app.get('/searchByLikes', async (req, res) => {
+    let minLikes = req.query.minLikes;
+    let maxLikes = req.query.maxLikes;
+    
+    let sql = `SELECT *
+               FROM q_quotes
+               NATURAL JOIN q_authors
+               WHERE q_quotes.likes BETWEEN ? AND ?`;
 
-
+    let sqlParams = [minLikes,maxLikes];
+    
+    try {
+        const [rows] = await pool.query(sql, sqlParams);
+        res.render("results",{"quotes":rows});
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error");
+    }
+});
 
 app.listen(3000, ()=>{
     console.log("Express server running")

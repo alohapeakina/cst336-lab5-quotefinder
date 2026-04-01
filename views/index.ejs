@@ -28,6 +28,14 @@
         </select>
         <button>Search by Category</button>
     </form>
+
+    <form action="/searchByLikes">
+        <label for="minLikes">Min Likes:</label>
+        <input type="number" name="minLikes">
+        <label for="maxLikes">Max Likes:</label>
+        <input type="number" name="maxLikes">
+        <button>Search by Likes</button>
+    </form>
     
     <%- include("partials/footer.ejs") %>
 </body>
