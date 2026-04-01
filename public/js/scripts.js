@@ -5,6 +5,9 @@ for (let authorLink of authorLinks) {
 }
 
 async function getAuthorInfo() {
+    let myModal = new bootstrap.Modal(document.getElementById('authorModal'));
+    myModal.show();
+
     let url = `api/author/${this.id}`;
     
     let response = await fetch(url);
