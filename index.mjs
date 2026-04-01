@@ -87,6 +87,21 @@ app.get('/searchByAuthor', async (req, res) => {
     }
 });
 
+app.get('/api/author/:id', async (req, res) => {
+  let authorId = req.params.id;
+  let sql = `SELECT *
+            FROM q_authors
+            WHERE authorId = ?`;
+    try {
+        let [rows] = await pool.query(sql, [authorId]);
+        res.send(rows)
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error");
+    }
+});
+
+
 
 app.listen(3000, ()=>{
     console.log("Express server running")
