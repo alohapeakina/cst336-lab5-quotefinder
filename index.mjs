@@ -22,10 +22,6 @@ const pool = mysql.createPool({
 });
 
 //routes
-app.get('/', (req, res) => {
-   res.render('index');
-});
-
 app.get("/dbTest", async(req, res) => {
 
     let sql = "SELECT * FROM q_authors";
@@ -33,6 +29,20 @@ app.get("/dbTest", async(req, res) => {
    try {
         const [rows] = await pool.query(sql);
         res.send(rows);
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error");
+    }
+});
+
+app.get('/', async (req, res) => {
+    let sql = `SELECT authorId, firstName, lastName
+               FROM q_authors
+               ORDER BY lastName`;
+
+    try {
+        const [rows] = await pool.query(sql);
+        res.render("index",{"authors":rows});
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).send("Database error");
