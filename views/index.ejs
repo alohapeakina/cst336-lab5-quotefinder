@@ -1,41 +1,83 @@
 <%- include("partials/header.ejs") %>
 <body>
-    <h1>Quote Finder</h1>
-    <form action="/searchByKeyword">
-        Keyword:
-        <input type="text" name="keyword">
-        <button>Search by Keyword</button>
-    </form>
-    <br>
-    <form action="/searchByAuthor">
-        <select name="authorId">
-            <% for (author of authors) { %>
-            <option value="<%=author.authorId%>">
-                <%=author.firstName%> <%=author.lastName%>
-            </option>
-            <% } %>
-        </select>
-        <button>Search by Author</button>
-    </form>
 
-    <form action="/searchByCategory">
-        <select name="categories">
-            <% for (quote of quotes) { %>
-            <option value="<%=quote.category%>">
-                <%=quote.category%>
-            </option>
-            <% } %>
-        </select>
-        <button>Search by Category</button>
-    </form>
+    <div class="container mt-5">
 
-    <form action="/searchByLikes">
-        <label for="minLikes">Min Likes:</label>
-        <input type="number" name="minLikes">
-        <label for="maxLikes">Max Likes:</label>
-        <input type="number" name="maxLikes">
-        <button>Search by Likes</button>
-    </form>
+        <h1 class="text-center mb-5 display-4">Quote Finder</h1>
+        <div class="header-underline"></div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8 bg-white p-5 rounded shadow-sm">
+
+                <form action="/searchByKeyword" class="row mb-4 align-items-center search-divider">
+                        <label class="col-sm-3 col-form-label fw-bold">Keyword:</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="keyword" class="form-control">
+                        </div>
+                        <div class="col-sm-3">
+                            <button class="btn btn-primary w-100">Search</button>
+                        </div>
+                </form>
+
+                <form action="/searchByAuthor" class="row mb-4 align-items-center search-divider">
+                    <label class="col-sm-3 col-form-label fw-bold" for="authorId">Author:</label>
+                    <div class="col-sm-6">
+                        <select class="form-select" name="authorId">
+                            <option selected disabled>Select an Author</option>
+                            <% for (author of authors) { %>
+                            <option value="<%=author.authorId%>">
+                                <%=author.firstName%> <%=author.lastName%>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary w-100">Search</button>
+                    </div>
+                </form>
+
+                <form action="/searchByCategory" class="row mb-4 align-items-center search-divider">
+                    <label class="col-sm-3 col-form-label fw-bold" for="categories">Category:</label>
+                    <div class="col-sm-6">
+                        <select class="form-select" name="categories">
+                            <option selected disabled>Select a Category</option>
+                            <% for (quote of quotes) { %>
+                            <option value="<%=quote.category%>">
+                                <%=quote.category%>
+                            </option>
+                            <% } %>
+                        </select>
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary w-100">Search</button>
+                    </div>
+                </form>      
+
+                <form action="/searchByLikes" class="row mb-4 align-items-center">
+                    <label class="col-sm-3 col-form-label fw-bold">Quote Likes:</label>
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-column gap-2">
+
+                            <div class="input-group">
+                                <span class="input-group-text" style="width: 60px; font-size: 0.8rem;">Min</span>
+                                <input type="number" name="minLikes" class="form-control" placeholder = "0">
+                            </div>
+
+                            <div class="input-group">
+                                <span class="input-group-text" style="width: 60px; font-size: 0.8rem;">Max</span>
+                                <input type="number" name="maxLikes" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <button class="btn btn-primary w-100 h-100">Search</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
     
     <%- include("partials/footer.ejs") %>
 </body>
