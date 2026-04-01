@@ -58,6 +58,26 @@ app.get('/searchByKeyword', async (req, res) => {
     }
 });
 
+app.get('/searchByAuthor', async (req, res) => {
+    let userAuthorId = req.query.authorId;
+    
+    let sql = `SELECT authorId, firstName, lastName, quote
+               FROM q_quotes
+               NATURAL JOIN q_authors
+               WHERE authorId = ?`;
+
+    let sqlParams = [userAuthorId];
+    
+    try {
+        const [rows] = await pool.query(sql, sqlParams);
+        res.render("results",{"quotes":rows});
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error");
+    }
+});
+
+
 app.listen(3000, ()=>{
     console.log("Express server running")
 })
