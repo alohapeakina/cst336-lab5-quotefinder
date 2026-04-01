@@ -22,7 +22,7 @@ const pool = mysql.createPool({
 });
 
 //routes
-app.get("/dbTest", async(req, res) => {
+app.get("/dbTestAuthor", async(req, res) => {
 
     let sql = "SELECT * FROM q_authors";
 
@@ -35,14 +35,31 @@ app.get("/dbTest", async(req, res) => {
     }
 });
 
+app.get("/dbTestQuote", async(req, res) => {
+
+    let sql = "SELECT * FROM q_quotes";
+
+   try {
+        const [rows] = await pool.query(sql);
+        res.send(rows);
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error");
+    }
+});
+
 app.get('/', async (req, res) => {
-    let sql = `SELECT authorId, firstName, lastName
+    let authorSql = `SELECT authorId, firstName, lastName
                FROM q_authors
                ORDER BY lastName`;
 
+    let quoteSql = `SELECT DISTINCT category
+                    FROM q_quotes`;
+
     try {
-        const [rows] = await pool.query(sql);
-        res.render("index",{"authors":rows});
+        const [rows] = await pool.query(authorSql);
+        const [quoteRows] = await pool.query(quoteSql);
+        res.render("index",{"authors":rows, "quotes":quoteRows});
     } catch (err) {
         console.error("Database error:", err);
         res.status(500).send("Database error");
@@ -100,6 +117,39 @@ app.get('/api/author/:id', async (req, res) => {
         res.status(500).send("Database error");
     }
 });
+
+app.get('/searchByCategory', async (req, res) => {
+    let userCategory = req.query.categories;
+    
+    let sql = `SELECT *
+               FROM q_quotes
+               NATURAL JOIN q_authors
+               WHERE category = ?`;
+
+    let sqlParams = [userCategory];
+    
+    try {
+        const [rows] = await pool.query(sql, sqlParams);
+        res.render("results",{"quotes":rows});
+    } catch (err) {
+        console.error("Database error:", err);
+        res.status(500).send("Database error");
+    }
+});
+
+// app.get('/api/author/:id', async (req, res) => {
+//   let authorId = req.params.id;
+//   let sql = `SELECT *
+//             FROM q_authors
+//             WHERE authorId = ?`;
+//     try {
+//         let [rows] = await pool.query(sql, [authorId]);
+//         res.send(rows)
+//     } catch (err) {
+//         console.error("Database error:", err);
+//         res.status(500).send("Database error");
+//     }
+// });
 
 
 
